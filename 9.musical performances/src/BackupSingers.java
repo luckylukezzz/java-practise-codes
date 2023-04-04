@@ -6,6 +6,7 @@ public class BackupSingers extends Singers implements IBackup {
     
     @Override
     public void perform(){
-        System.out.println("backup singer sings");
+       this.sing();
     }
+  
 }
