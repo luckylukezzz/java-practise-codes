@@ -3,6 +3,7 @@ public class StudioPerformance extends Performance {
         super(mainArtist,performanceName,year,venue);
     } 
     public void record(){
+        System.out.println("This is the method record in the  class StudioPerformance \n (overidden the medthod form abstract class performance)" ); 
         System.out.println("Recording in the studio");
     }
 }

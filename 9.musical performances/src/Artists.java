@@ -5,6 +5,7 @@ public abstract class Artists {
         this.name = name;
     }
     public String getName() {
+        System.out.println("This is the method getName in the class Artists" ); 
         return name;
     }
 }
