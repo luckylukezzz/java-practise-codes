@@ -1,4 +1,4 @@
-public class Artists {
+public abstract class Artists {
     private String name ;
 
     public Artists(String name) {
