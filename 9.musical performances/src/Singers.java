@@ -4,7 +4,7 @@ public abstract class Singers extends Artists {
     }
     public void sing(){
         System.out.println("This is the method sing in the Singers class" ); 
-        System.out.println(this.getName()+" sings");
+        System.out.println("\n"+this.getName()+" sings\n");
     }
     
 }

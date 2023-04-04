@@ -4,6 +4,6 @@ public class StudioPerformance extends Performance {
     } 
     public void record(){
         System.out.println("This is the method record in the  class StudioPerformance \n (overidden the medthod form abstract class performance)" ); 
-        System.out.println("Recording in the studio");
+        System.out.println("\nRecording in the studio\n");
     }
 }

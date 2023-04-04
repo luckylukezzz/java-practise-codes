@@ -36,7 +36,7 @@ public abstract class Performance {
     }
     public void initiate(){
         System.out.println("This is the method initiate in the abstract class Performance" ); 
-        System.out.println("Welcome to the Performance "+this.performanceName+" by "+mainArtist.getName());
+        System.out.println("\nWelcome to the Performance "+this.performanceName+" by "+mainArtist.getName()+"\n");
         this.record();
         mainArtist.sing();
         for (IBackup backSinger : backupSingers){
