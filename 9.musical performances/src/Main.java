@@ -14,5 +14,6 @@ public class Main {
         show1.setbackupDancers(new BackupDancers("Jake"));
 
         show1.initiate();
+        show1.interactAudience();
     }
 }

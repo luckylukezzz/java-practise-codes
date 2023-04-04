@@ -7,4 +7,7 @@ public class LivePerformance extends Performance {
         System.out.println("This is the method record in the  class LivePerformance \n (overidden the medthod form abstract class performance)" ); 
         System.out.println("recording live at "+ this.getVenue() );
     }
+    public void interactAudience(){
+        getMainArtist().interactAudience();
+    }
 }

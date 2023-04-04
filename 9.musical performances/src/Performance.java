@@ -21,10 +21,7 @@ public abstract class Performance {
         this.backupSingers = new ArrayList<>();
         this.backupDancers = new ArrayList<>();
     }    
-    public String getVenue() {
-        System.out.println("This is the method getVenue in the abstract class Performance" );
-        return venue;
-    }
+   
     public void setbackupSingers(IBackup backupSinger) { 
         System.out.println("This is the method setbackupSingers in the abstract class Performance" );       
         backupSingers.add(backupSinger);
@@ -40,6 +37,7 @@ public abstract class Performance {
     public void initiate(){
         System.out.println("This is the method initiate in the abstract class Performance" ); 
         System.out.println("Welcome to the Performance "+this.performanceName+" by "+mainArtist.getName());
+        this.record();
         mainArtist.sing();
         for (IBackup backSinger : backupSingers){
            backSinger.perform();
@@ -49,4 +47,19 @@ public abstract class Performance {
          }
     }
     public abstract void record();
+
+    public String getVenue() {
+        System.out.println("This is the method getVenue in the abstract class Performance" );
+        return venue;
+    }
+    public MainArtist getMainArtist() {
+        System.out.println("This is the method getMainArtist in the abstract class Performance" );
+        return mainArtist;
+    }
+
+    public int getYear() {
+        System.out.println("This is the method getYear in the abstract class Performance" );
+        return year;
+    }
+
 }
