@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) throws Exception {
         var show1 = new LivePerformance(new MainArtist("Taylor Swift"),"Eras Tour",2023,"Glendale");
@@ -15,5 +17,8 @@ public class Main {
 
         show1.initiate();
         show1.interactAudience();
+
+        Scanner x= new Scanner(System.in);
+        x.nextLine();
     }
 }
