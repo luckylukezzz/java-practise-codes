@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -6,24 +7,32 @@ abstract class Account {
     private int accountNumber;
     private String currency;
     private String branch;
-    double balance;
+    private ArrayList<Transaction> transactions=new ArrayList<>();
+    public double balance;
     
-    public int getAccountNumber() {
-        return accountNumber;
-    }
-    public double getBalance() {
-        return balance;
-    }
+    
     public Account(int accountNumber, String currency, String branch, double balance) {
         this.accountNumber = accountNumber;
         this.currency = currency;
         this.branch = branch;
         this.balance = balance;
     }
+    public String getCurrency() {
+        return currency;
+    }
+    public int getAccountNumber() {
+        return accountNumber;
+    }
+    public double getBalance() {
+        return balance;
+    }
+    public void addTransaction(Transaction t){
+        transactions.add(t);
+    }
     
 }
 class SavingsAccount extends Account {
-
+    private int interestRate =4;
     public SavingsAccount(int accountNumber, String currency, String branch, double balance) {
         super(accountNumber, currency, branch, balance);
     }
@@ -47,7 +56,7 @@ class Client{
     private String address;
     private int age;
     private String gender;
-    private ArrayList<Account> accounts;
+    private ArrayList<Account> accounts = new ArrayList<Account>();
     private int pin;
     
 
@@ -108,7 +117,7 @@ class Transaction {
 
     public Transaction(Account acc) {
         this.acc = acc;
-        System.out.println("balance is"+   acc.getBalance());
+        System.out.println("Balance is: "+acc.getCurrency()+" " + acc.getBalance());
         accountId=acc.getAccountNumber();
         date=new Date();
         status="success";
@@ -119,16 +128,17 @@ class Transaction {
         this.acc = acc;
         if (type=="deposit"){
             acc.balance+=amount;
-
+            status = "Deposited money";
         }
         else{
             if (acc.balance>amount){
                 acc.balance-=amount;
-                status="success";
+                status="Withdrawal success";
             }else{
-                status ="unsucessful";
+                status ="Withdrawal unsucessful";
             }
         }
+        System.out.println(status);
         accountId=acc.getAccountNumber();
         date=new Date();
         
@@ -149,24 +159,54 @@ public class ATM {
 
     
     public static void main(String[] args) {
-        Client client1= new Client(2001,2,"asd","sinhala","teacher","kuliyapityia",20,"male");
+        Client client1= new Client(2001,2,"Saman Kumaara","sinhala","teacher","kuliyapityia",20,"male");
         Bank bank1= new Bank();
-        bank1.createAcc(client1,"saving",55, "rs", "kurunegla",10000);
-        bank1.createAcc(client1,"current",30, "rs", "colombo",50000);
+        bank1.createAcc(client1,"saving",5555, "rs", "kurunegla",10000);
+        bank1.createAcc(client1,"current",3000, "rs", "colombo",50000);
         ATM atm1=new ATM();
         Scanner sc = new Scanner(System.in);
-        System.out.print("Welcome!\nPlease enter your PIN: \n");
-        int pin = sc.nextInt();
-        if(atm1.verify(client1,pin) ){
-            System.out.println("Select an account:");
-            for (Account account : client1.getAccounts()) {
-                System.out.println(account.accountNumber);
+        while(true){
+            System.out.print("Welcome!\nPlease enter your PIN: \n");
+            int pin = sc.nextInt();
+            if(atm1.verify(client1,pin) ){
+                System.out.println("Select an account:");
+                int i=1;
+                for (Account account : client1.getAccounts()) {
+                    System.out.println(i+". "+account.getAccountNumber());
+                    i++;
+                }
+                System.out.print("Enter your choice: ");
+                int accountNumber = sc.nextInt();
+                var arr = client1.getAccounts();
+                Account acc = arr.get(accountNumber -1);
+
+                System.out.println("\nMain Menu");
+                System.out.println("1. View Balance");
+                System.out.println("2. Withdraw Money");
+                System.out.println("3. Deposit Money");
+                System.out.println("4. Exit");
+                System.out.print("Enter your choice: ");
+                int choice = sc.nextInt();
+                switch (choice) {
+                    case 1:
+                        Transaction trans1=new Transaction(acc);
+                        break;
+                    case 2:
+                        System.out.println("Enter amount: ");
+                        int v1 =sc.nextInt();
+                        Transaction trans2=new Transaction(v1,acc,"withdrawal");
+                        break;
+                    case 3:
+                        System.out.println("Enter amount: ");
+                        int v2 =sc.nextInt();
+                        Transaction trans3=new Transaction(v2,acc,"deposit");
+                        break;
+                    case 4:
+                        System.exit(0);
+                }    
             }
-            System.out.print("Enter account number: ");
-            int accountNumber = sc.nextInt();
-            Account account = getAccount(client, accountNumber);
-
-        }
-
+        
+            else{System.out.println("invalid pin");}
+        }    
     }
 }
