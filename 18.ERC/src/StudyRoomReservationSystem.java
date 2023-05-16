@@ -59,7 +59,7 @@ public class StudyRoomReservationSystem {
         roomList.put(roomNumber,new StudyRoom(roomNumber, maxCapacity));
     }
 
-    public static  void reserveStudyRoom(int  roomNumber) throws StudyRoomUnavailableException{
+    public static synchronized void  reserveStudyRoom(int  roomNumber) throws StudyRoomUnavailableException{
         if (roomList.get( roomNumber).getCapacity() < roomList.get( roomNumber).getMaxCapacity()){
             System.out.println("reserve successful");
             roomList.get( roomNumber).incCapacity();
@@ -68,13 +68,13 @@ public class StudyRoomReservationSystem {
         }
     }
 
-    public static  void releaseStudyRoom(int roomNumber) {
+    public static synchronized void releaseStudyRoom(int roomNumber) {
         System.out.println("release successful");
         if (roomList.get(roomNumber).getCapacity() > 0)
             roomList.get(roomNumber).decCapacity();
     }
 
-    public static void displayStudyRoomStatus() {
+    public static synchronized void displayStudyRoomStatus() {
         for ( var i : roomList.keySet()){
             String x;
             if (roomList.get(i).isAvailable()){
@@ -84,81 +84,115 @@ public class StudyRoomReservationSystem {
         }
         
     }
+    public static void threadCreater(int i , int j){
+        switch (i) {
+            case 1:
+                new Thread() {
+                    public void run() {
+                        try {
+                            reserveStudyRoom(j);
+                        } catch (StudyRoomUnavailableException e) {
+                            System.out.println("Exception: " + e.getMessage());
+                        }
+                    }
+                }.start();
+                break;
+            case 2:
+                new Thread() {
+                    public void run() {
+                        releaseStudyRoom(1);
+                    }
+                }.start();
+                break;
+            }
+    }
+    public static void threadCreater() throws InterruptedException{
+        var x = new Thread() {
+            public void run() {
+                displayStudyRoomStatus();
+            }
+        };
+        x.start();
+        x.join();
 
-    public static void main(String[] args) {
+    }
+    public static void main(String[] args) throws InterruptedException {
         setRoom(1,4) ;
         setRoom(2,4) ;
         setRoom(3,5) ;
+
+        threadCreater();
+        threadCreater(1,1);
+        threadCreater(1,1);
+        threadCreater(1,1);
+        threadCreater(1,1);
+        threadCreater(1,1);
+        threadCreater(1,1);
+        threadCreater(2,1);
+        threadCreater(1,2);
+        threadCreater();
        
-        new Thread() {
-            public void run() {
-                displayStudyRoomStatus();
-            }
-        }.start();
-        new Thread() {
-            public void run() {
-                try {
-                    reserveStudyRoom(1);
-                } catch (StudyRoomUnavailableException e) {
-                    System.out.println("Exception: " + e.getMessage());
-                }
-            }
-        }.start();
-        new Thread() {
-            public void run() {
-                try {
-                    reserveStudyRoom(1);
-                } catch (StudyRoomUnavailableException e) {
-                    System.out.println("Exception: " + e.getMessage());
-                }
-            }
-        }.start();
-        new Thread() {
-            public void run() {
-                try {
-                    reserveStudyRoom(1);
-                } catch (StudyRoomUnavailableException e) {
-                    System.out.println("Exception: " + e.getMessage());
-                }
-            }
-        }.start();
-        new Thread() {
-            public void run() {
-                try {
-                    reserveStudyRoom(1);
-                } catch (StudyRoomUnavailableException e) {
-                    System.out.println("Exception: " + e.getMessage());
-                }
-            }
-        }.start();
-        new Thread() {
-            public void run() {
-                try {
-                    reserveStudyRoom(1);
-                } catch (StudyRoomUnavailableException e) {
-                    System.out.println("Exception: " + e.getMessage());
-                }
-            }
-        }.start();
-        new Thread() {
-            public void run() {
-                try {
-                    reserveStudyRoom(1);
-                } catch (StudyRoomUnavailableException e) {
-                    System.out.println("Exception: " + e.getMessage());
-                }
-            }
-        }.start();
-        new Thread() {
-            public void run() {
-                displayStudyRoomStatus();
-            }
-        }.start();
-        new Thread() {
-            public void run() {
-                releaseStudyRoom(1);
-            }
-        }.start();
+        // new Thread() {
+        //     public void run() {
+        //         displayStudyRoomStatus();
+        //     }
+        // }.start();
+       
+        // new Thread() {
+        //     public void run() {
+        //         try {
+        //             reserveStudyRoom(1);
+        //         } catch (StudyRoomUnavailableException e) {
+        //             System.out.println("Exception: " + e.getMessage());
+        //         }
+        //     }
+        // }.start();
+        // new Thread() {
+        //     public void run() {
+        //         try {
+        //             reserveStudyRoom(1);
+        //         } catch (StudyRoomUnavailableException e) {
+        //             System.out.println("Exception: " + e.getMessage());
+        //         }
+        //     }
+        // }.start();
+        // new Thread() {
+        //     public void run() {
+        //         try {
+        //             reserveStudyRoom(1);
+        //         } catch (StudyRoomUnavailableException e) {
+        //             System.out.println("Exception: " + e.getMessage());
+        //         }
+        //     }
+        // }.start();
+        // new Thread() {
+        //     public void run() {
+        //         try {
+        //             reserveStudyRoom(1);
+        //         } catch (StudyRoomUnavailableException e) {
+        //             System.out.println("Exception: " + e.getMessage());
+        //         }
+        //     }
+        // }.start();
+        // new Thread() {
+        //     public void run() {
+        //         try {
+        //             reserveStudyRoom(1);
+        //         } catch (StudyRoomUnavailableException e) {
+        //             System.out.println("Exception: " + e.getMessage());
+        //         }
+        //     }
+        // }.start();
+        // new Thread() {
+        //     public void run() {
+        //         displayStudyRoomStatus();
+        //     }
+        // }.start();
+        // new Thread() {
+        //     public void run() {
+        //         releaseStudyRoom(1);
+        //     }
+        // }.start();
         
 
     }
